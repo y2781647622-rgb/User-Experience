@@ -78,7 +78,46 @@
         .model-card {
             background: rgba(255,255,255,0.03); padding: 40px;
             border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+            display: flex; flex-direction: column;
         }
+
+        /* --- INTERACTIVE ZOOM Styles --- */
+        .zoom-trigger {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            cursor: zoom-in;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .zoom-trigger:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .click-hint {
+            font-size: 0.8rem; color: var(--accent-color); margin-top: 10px; text-align: center; opacity: 0.7;
+        }
+
+        /* --- Lightbox Modal --- */
+        .lightbox-modal {
+            display: none; position: fixed; z-index: 9999;
+            left: 0; top: 0; width: 100%; height: 100%;
+            overflow: auto; background-color: rgba(0,0,0,0.95);
+            align-items: center; justify-content: center;
+        }
+        .lightbox-content {
+            margin: auto; display: block; max-width: 90%; max-height: 90vh;
+            border-radius: 4px; box-shadow: 0 0 50px rgba(255,207,36, 0.2);
+            animation: zoomIn 0.3s;
+        }
+        .lightbox-close {
+            position: absolute; top: 30px; right: 50px;
+            color: #f1f1f1; font-size: 40px; font-weight: bold;
+            transition: 0.3s; cursor: pointer;
+        }
+        .lightbox-close:hover { color: var(--accent-color); }
+        @keyframes zoomIn { from {transform:scale(0.8); opacity:0} to {transform:scale(1); opacity:1} }
 
         /* --- Problem & Research --- */
         .problem-research-section { padding: var(--section-spacing) 0; }
@@ -96,20 +135,14 @@
         .research-grid {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
         }
-        
-        /* Research Box Styling */
         .text-box {
             background: rgba(0,0,0,0.25);
             border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 8px;
-            padding: 25px;
-            font-size: 0.85rem;
-            color: #ddd;
-            display: flex; flex-direction: column;
+            border-radius: 8px; padding: 25px;
+            font-size: 0.85rem; color: #ddd; display: flex; flex-direction: column;
             transition: transform 0.3s;
         }
         .text-box:hover { transform: translateY(-5px); border-color: var(--accent-color); }
-        
         .text-box h4 {
             color: var(--accent-color); font-size: 1.1rem; margin-bottom: 15px;
             line-height: 1.3; font-weight: 700; border-bottom: 1px solid rgba(255,207,36,0.3);
@@ -117,87 +150,73 @@
         }
         .text-box ul { list-style: none; padding: 0; margin-bottom: 15px; }
         .text-box li { margin-bottom: 8px; position: relative; padding-left: 12px; }
-        .text-box li::before {
-            content: "▸"; color: var(--accent-color); position: absolute; left: 0;
-        }
-        .sub-head {
-            font-weight: 700; color: #fff; display: block; margin-top: 10px; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
-        }
+        .text-box li::before { content: "▸"; color: var(--accent-color); position: absolute; left: 0; }
+        .sub-head { font-weight: 700; color: #fff; display: block; margin-top: 10px; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
 
         /* --- Gallery --- */
         .gallery-section { padding: var(--section-spacing) 0; background: var(--bg-darker); }
         .gallery-block { margin-bottom: 150px; }
 
-        /* Sketch Grid with Years */
-        .concept-sketch-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
-        }
-        .sketch-wrapper {
-            display: flex; flex-direction: column; align-items: center;
-        }
+        .concept-sketch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .sketch-wrapper { display: flex; flex-direction: column; align-items: center; }
         .sketch-img {
             width: 100%; height: auto; border-radius: 8px;
-            border: 2px solid #444;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 2px solid #444; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
         }
         .sketch-img:hover { transform: scale(1.02); border-color: var(--accent-color); }
         .sketch-year {
             margin-top: 15px; font-family: var(--font-title);
-            font-size: 1.8rem; font-weight: 900; color: var(--accent-color);
-            letter-spacing: 2px;
+            font-size: 1.8rem; font-weight: 900; color: var(--accent-color); letter-spacing: 2px;
         }
 
-        /* --- CSS: Systems Cluster (Olympic Style) --- */
-        .systems-cluster-container {
-            position: relative;
-            height: 450px;
-            margin-bottom: 60px;
+        /* --- UNIFIED SYSTEMS GRID (3-on-2 Layout) --- */
+        .systems-unified-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-        }
-        .cluster-img {
-            position: absolute;
-            width: 35%;
-            height: auto;
-            border-radius: 12px;
-            border: 4px solid var(--accent-color);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            transition: all 0.4s ease;
-            z-index: 1;
-        }
-        .cluster-img:hover { z-index: 10; transform: scale(1.05); border-color: #fff; }
-        .img-pos-1 { top: 0; left: 15%; transform: rotate(-3deg); }
-        .img-pos-2 { top: 0; right: 15%; transform: rotate(3deg); }
-        .img-pos-3 { bottom: 0; left: 50%; margin-left: -17.5%; z-index: 5; }
-        
-        /* Grid for the remaining systems images (s4, etc) */
-        .systems-grid-remaining {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; margin: 0 auto;
-        }
-        .system-img {
-            width: 100%; height: auto; border-radius: 6px; 
-            border: 1px solid rgba(255,255,255,0.2);
-            filter: grayscale(20%); transition: filter 0.3s;
-        }
-        .system-img:hover { filter: grayscale(0%); border-color: var(--accent-color); }
-
-        /* --- Future Doc (Newspaper Highlight) --- */
-        .future-doc-wrapper {
-            width: 100%;
-            max-width: 1400px;
+            gap: 40px;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .system-card-unified {
+            width: calc(33.333% - 40px); /* 3 in a row minus gap */
             position: relative;
-            background-color: #FFFFFF;
-            padding: 40px;
-            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
+            aspect-ratio: 4 / 3; /* Force a standard aspect ratio for containers so they align */
         }
-        .future-doc-img {
+
+        .system-img-unified {
             width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 4px;
+            height: 100%;
+            object-fit: cover; /* Ensure images fill the container nicely */
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+            filter: grayscale(10%);
+            cursor: zoom-in;
         }
+
+        /* Unified Hover Effect */
+        .system-card-unified:hover {
+            transform: translateY(-10px) scale(1.05);
+            z-index: 10;
+        }
+        .system-card-unified:hover .system-img-unified {
+            border-color: var(--accent-color);
+            box-shadow: 0 20px 50px rgba(255, 207, 36, 0.3);
+            filter: grayscale(0%);
+        }
+
+        /* --- Future Doc --- */
+        .future-doc-wrapper {
+            width: 100%; max-width: 1400px; margin: 0 auto; position: relative;
+            background-color: #FFFFFF; padding: 40px; border-radius: 12px;
+        }
+        .future-doc-img { width: 100%; height: auto; display: block; border-radius: 4px; }
         .future-doc-wrapper::after {
             content: ''; position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px;
             background: var(--accent-color); filter: blur(80px); opacity: 0.2; z-index: -1;
@@ -207,13 +226,12 @@
         @media (max-width: 1024px) {
             .models-grid, .problem-split { grid-template-columns: 1fr; }
             .research-grid, .concept-sketch-grid { grid-template-columns: repeat(2, 1fr); }
+            .system-card-unified { width: calc(50% - 20px); } /* 2 per row on tablet */
         }
         @media (max-width: 768px) {
             .research-grid, .concept-sketch-grid { grid-template-columns: 1fr; }
             .main-title { font-size: 3rem; }
-            .systems-cluster-container { height: auto; flex-direction: column; align-items: center; gap: 20px; }
-            .cluster-img { position: relative; width: 80%; left: auto; right: auto; top: auto; margin: 0; transform: none; }
-            .systems-grid-remaining { grid-template-columns: 1fr; }
+            .system-card-unified { width: 100%; aspect-ratio: auto; } /* 1 per row on mobile, let height adapt */
         }
     </style>
 </head>
@@ -230,41 +248,33 @@
         <div class="models-grid">
             <div class="model-card">
                 <h3 class="sub-title">Future Wheel</h3>
-                <div class="image-placeholder-slot" style="min-height: 300px;">
-                    [ Future Wheel Placeholder ]
-                </div>
+                <img src="2.svg" alt="Future Wheel Diagram" class="zoom-trigger" onclick="openLightbox(this)">
+                <div class="click-hint">Click diagram to enlarge 🔍</div>
             </div>
+
             <div class="model-card">
                 <h3 class="sub-title">Process</h3>
-                <div class="image-placeholder-slot" style="min-height: 300px;">
-                    [ Process Placeholder ]
-                </div>
+                <img src="3.svg" alt="Process Diagram" class="zoom-trigger" onclick="openLightbox(this)">
+                <div class="click-hint">Click diagram to enlarge 🔍</div>
             </div>
+
             <div class="model-card">
                 <h3 class="sub-title">User Group</h3>
-                <div class="image-placeholder-slot" style="min-height: 300px;">
-                    [ User Group Placeholder ]
-                </div>
+                <img src="4.svg" alt="User Group Diagram" class="zoom-trigger" onclick="openLightbox(this)">
+                <div class="click-hint">Click diagram to enlarge 🔍</div>
             </div>
         </div>
     </section>
 
     <section class="problem-research-section container">
-        
         <div class="problem-split">
             <div class="problem-text">
                 <h2 class="section-title">Problem Statement</h2>
-                <p class="lead">
-                    “ By 2040, four-day work weeks mean more life happening in HDB neighborhoods—but also more delivery robots moving through them. ”
-                </p>
-                <p style="font-size: 1.1rem; color: #ccc;">
-                    In narrow walkways and void decks, everyday routines are disrupted by congestion, safety concerns, and rising tension between people and machines. The challenge isn't just logistics—it's preserving the rhythm of human life.
-                </p>
+                <p class="lead">“ By 2040, four-day work weeks mean more life happening in HDB neighborhoods—but also more delivery robots moving through them. ”</p>
+                <p style="font-size: 1.1rem; color: #ccc;">In narrow walkways and void decks, everyday routines are disrupted by congestion, safety concerns, and rising tension between people and machines. The challenge isn't just logistics—it's preserving the rhythm of human life.</p>
             </div>
             <div class="image-container">
-                <div class="image-placeholder-slot slot-large">
-                     [ Problem Statement Image ]
-                </div>
+                <div class="image-placeholder-slot slot-large">[ Problem Statement Image ]</div>
             </div>
         </div>
 
@@ -278,7 +288,6 @@
                         <li><strong>Footpath width:</strong> 1.5m clear; Cycling path: 2.0m.</li>
                         <li><strong>20-min towns:</strong> Amenities ≤ 20 min walk/cycle.</li>
                         <li><strong>45-min city:</strong> 90% peak journeys < 45 min.</li>
-                        <li><strong>Expansion:</strong> Seamless multimodal networks & Transit Priority Corridors.</li>
                     </ul>
                 </div>
                 <div class="text-box">
@@ -287,8 +296,7 @@
                         <li><strong>Specs:</strong> Knee-high, 6-wheeled, 5–8 km/h, 30 lbs cargo.</li>
                         <li><strong>Stats:</strong> Starship (9M+ deliveries), Serve Robotics (Uber Eats).</li>
                         <li><strong>Market:</strong> $0.8B (2025) → $3.24B (2030).</li>
-                        <li><strong>Efficiency:</strong> Cuts urban delivery costs by 10–40%.</li>
-                        <li style="color:#ff8e8e"><strong>Safety:</strong> Obstructions & accessibility issues (e.g. Chicago pilot complaints).</li>
+                        <li style="color:#ff8e8e"><strong>Safety:</strong> Obstructions & accessibility issues.</li>
                     </ul>
                 </div>
                 <div class="text-box">
@@ -297,24 +305,19 @@
                     <ul>
                         <li>2,500+ SingPost Touchpoints</li>
                         <li>1,200+ Lockers (24/7 Access)</li>
-                        <li>80% pop. served within 10 mins</li>
                     </ul>
                     <span class="sub-head">02. Space Redefined</span>
                     <p style="font-size:0.8rem; margin-bottom:5px; color:#aaa;">Void Decks · Lift Lobbies · MRT Edges</p>
-                    <ul>
-                        <li>From "Neutral" to Handoff/Storage Zones.</li>
-                    </ul>
                 </div>
                 <div class="text-box">
                     <h4>Four-Day Work Week Effects</h4>
                     <ul>
                         <li>Increased neighborhood daytime activity.</li>
                         <li>Employees: ~25–30% more time in local spaces.</li>
-                        <li>Less commuting = more foot traffic in residential areas.</li>
+                        <li>Less commuting = more foot traffic.</li>
                     </ul>
                     <div style="margin-top:auto; border-top:1px solid #555; padding-top:10px;">
-                        <strong style="color:var(--accent-color)">Visual Takeaway:</strong><br>
-                        Peak hour congestion shifts to mixed-use areas, overlapping with robots.
+                        <strong style="color:var(--accent-color)">Visual Takeaway:</strong> Peak hour congestion shifts to residential areas.
                     </div>
                 </div>
             </div>
@@ -340,23 +343,35 @@
 
             <div class="gallery-block">
                 <h2 class="section-title">How The Systems Work</h2>
-                <p style="margin-bottom: 40px; color:var(--accent-color);">Key mechanical prototypes (Large Format Cluster).</p>
+                <p style="margin-bottom: 50px; color:var(--accent-color);">Unified Mechanical Prototypes.</p>
                 
-                <div class="systems-cluster-container">
-                    <img src="s1.jpg" alt="Pioneer System" class="cluster-img img-pos-1">
-                    <img src="s2.jpg" alt="Courier System" class="cluster-img img-pos-2">
-                    <img src="s3.jpg" alt="Puppy System" class="cluster-img img-pos-3">
-                </div>
+                <div class="systems-unified-container">
+                    
+                    <div class="system-card-unified">
+                        <img src="s1.jpg" alt="System 1" class="system-img-unified" onclick="openLightbox(this)">
+                    </div>
+                    
+                    <div class="system-card-unified">
+                        <img src="s2.jpg" alt="System 2" class="system-img-unified" onclick="openLightbox(this)">
+                    </div>
+                    
+                    <div class="system-card-unified">
+                        <img src="s3.jpg" alt="System 3" class="system-img-unified" onclick="openLightbox(this)">
+                    </div>
+                    
+                    <div class="system-card-unified">
+                        <img src="s4.jpg" alt="System 4" class="system-img-unified" onclick="openLightbox(this)">
+                    </div>
+                    
+                    <div class="system-card-unified">
+                        <img src="s5.png" alt="System 5" class="system-img-unified" onclick="openLightbox(this)">
+                    </div>
 
-                <div class="systems-grid-remaining">
-                    <img src="s4.jpg" alt="Action Code 004" class="system-img">
-                    <div class="image-placeholder-slot">[ System Detail 5 ]</div>
                 </div>
             </div>
 
             <div class="gallery-block" style="text-align: center;">
                 <h2 class="section-title" style="margin-bottom: 60px;">Future Documentation</h2>
-                
                 <div class="future-doc-wrapper">
                     <img src="1.svg" alt="The Straits Times 2040 Special Report" class="future-doc-img">
                 </div>
@@ -364,6 +379,29 @@
 
         </div>
     </section>
+
+    <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox(event)">
+        <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+        <img class="lightbox-content" id="img01">
+    </div>
+
+    <script>
+        function openLightbox(element) {
+            var modal = document.getElementById("lightboxModal");
+            var modalImg = document.getElementById("img01");
+            modal.style.display = "flex";
+            modalImg.src = element.src;
+        }
+
+        function closeLightbox(event) {
+            if (event.target.className === "lightbox-modal" || event.target.className === "lightbox-close") {
+                document.getElementById("lightboxModal").style.display = "none";
+            }
+        }
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") { document.getElementById("lightboxModal").style.display = "none"; }
+        });
+    </script>
 
 </body>
 </html>
