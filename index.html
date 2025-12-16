@@ -170,9 +170,17 @@
         .img-pos-1 { top: 0; left: 15%; transform: rotate(-3deg); }
         .img-pos-2 { top: 0; right: 15%; transform: rotate(3deg); }
         .img-pos-3 { bottom: 0; left: 50%; margin-left: -17.5%; z-index: 5; }
+        
+        /* Grid for the remaining systems images (s4, etc) */
         .systems-grid-remaining {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; margin: 0 auto;
         }
+        .system-img {
+            width: 100%; height: auto; border-radius: 6px; 
+            border: 1px solid rgba(255,255,255,0.2);
+            filter: grayscale(20%); transition: filter 0.3s;
+        }
+        .system-img:hover { filter: grayscale(0%); border-color: var(--accent-color); }
 
         /* --- Future Doc (Newspaper Highlight) --- */
         .future-doc-wrapper {
@@ -180,20 +188,16 @@
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
-            /* --- 新增：白色背景样式 --- */
             background-color: #FFFFFF;
-            padding: 40px; /* 给SVG留出白边 */
-            border-radius: 12px; /* 模拟纸张圆角 */
+            padding: 40px;
+            border-radius: 12px;
         }
         .future-doc-img {
             width: 100%;
             height: auto;
             display: block;
-            /* 移除之前的深色阴影，因为背景变白了 */
-            /* box-shadow: 0 10px 50px rgba(0,0,0,0.8); */
             border-radius: 4px;
         }
-        /* 发光背景效果保留在白色纸张后面 */
         .future-doc-wrapper::after {
             content: ''; position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px;
             background: var(--accent-color); filter: blur(80px); opacity: 0.2; z-index: -1;
@@ -209,6 +213,7 @@
             .main-title { font-size: 3rem; }
             .systems-cluster-container { height: auto; flex-direction: column; align-items: center; gap: 20px; }
             .cluster-img { position: relative; width: 80%; left: auto; right: auto; top: auto; margin: 0; transform: none; }
+            .systems-grid-remaining { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -341,11 +346,10 @@
                     <img src="s1.jpg" alt="Pioneer System" class="cluster-img img-pos-1">
                     <img src="s2.jpg" alt="Courier System" class="cluster-img img-pos-2">
                     <img src="s3.jpg" alt="Puppy System" class="cluster-img img-pos-3">
-                    <img src="s4.jpg" alt="YMIR System" class="cluster-img img-pos-4">
                 </div>
 
                 <div class="systems-grid-remaining">
-                    <div class="image-placeholder-slot">[ System Detail 4 ]</div>
+                    <img src="s4.jpg" alt="Action Code 004" class="system-img">
                     <div class="image-placeholder-slot">[ System Detail 5 ]</div>
                 </div>
             </div>
