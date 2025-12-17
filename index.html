@@ -175,6 +175,7 @@
             width: 100%; height: auto; border-radius: 8px;
             border: 2px solid #444; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
+            cursor: zoom-in; /* Added zoom cursor */
         }
         .sketch-img:hover { transform: scale(1.02); border-color: var(--accent-color); }
         .sketch-year {
@@ -332,6 +333,11 @@
                         <strong style="color:var(--accent-color)">Visual Takeaway:</strong> Peak hour congestion shifts to residential areas.
                     </div>
                 </div>
+                
+                <!-- Added View Window for Research Section -->
+                <div style="grid-column: 1 / -1; margin-top: 20px;">
+                    <img src="A1.jpg" alt="Research Visualization" class="zoom-trigger" onclick="openLightbox(this)" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); object-fit: cover;">
+                </div>
             </div>
         </div>
 
@@ -376,14 +382,14 @@
             <div class="gallery-block">
                 <h2 class="section-title">Concept Sketch: Timeline 2025–2046</h2>
                 <div class="concept-sketch-grid">
-                    <div class="sketch-wrapper"><img src="1.png" alt="2025" class="sketch-img"><div class="sketch-year">2025</div></div>
-                    <div class="sketch-wrapper"><img src="2.png" alt="2028" class="sketch-img"><div class="sketch-year">2028</div></div>
-                    <div class="sketch-wrapper"><img src="3.png" alt="2031" class="sketch-img"><div class="sketch-year">2031</div></div>
-                    <div class="sketch-wrapper"><img src="4.png" alt="2034" class="sketch-img"><div class="sketch-year">2034</div></div>
-                    <div class="sketch-wrapper"><img src="5.png" alt="2037" class="sketch-img"><div class="sketch-year">2037</div></div>
-                    <div class="sketch-wrapper"><img src="6.png" alt="2040" class="sketch-img"><div class="sketch-year">2040</div></div>
-                    <div class="sketch-wrapper"><img src="7.png" alt="2043" class="sketch-img"><div class="sketch-year">2043</div></div>
-                    <div class="sketch-wrapper"><img src="8.png" alt="2046" class="sketch-img"><div class="sketch-year">2046</div></div>
+                    <div class="sketch-wrapper"><img src="1.png" alt="2025" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2025</div></div>
+                    <div class="sketch-wrapper"><img src="2.png" alt="2028" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2028</div></div>
+                    <div class="sketch-wrapper"><img src="3.png" alt="2031" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2031</div></div>
+                    <div class="sketch-wrapper"><img src="4.png" alt="2034" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2034</div></div>
+                    <div class="sketch-wrapper"><img src="5.png" alt="2037" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2037</div></div>
+                    <div class="sketch-wrapper"><img src="6.png" alt="2040" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2040</div></div>
+                    <div class="sketch-wrapper"><img src="7.png" alt="2043" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2043</div></div>
+                    <div class="sketch-wrapper"><img src="8.png" alt="2046" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2046</div></div>
                 </div>
             </div>
 
