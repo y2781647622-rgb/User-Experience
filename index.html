@@ -153,6 +153,18 @@
         .text-box li::before { content: "▸"; color: var(--accent-color); position: absolute; left: 0; }
         .sub-head { font-weight: 700; color: #fff; display: block; margin-top: 10px; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
 
+        /* --- Culture Analysis Grid --- */
+        .culture-analysis-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 30px;
+        }
+        .culture-quote {
+            font-style: italic; font-size: 1.1rem; color: #fff; line-height: 1.8;
+        }
+        .quote-author {
+            display: block; margin-top: 20px; text-align: right; 
+            color: var(--accent-color); font-weight: 700; font-style: normal;
+        }
+
         /* --- Gallery --- */
         .gallery-section { padding: var(--section-spacing) 0; background: var(--bg-darker); }
         .gallery-block { margin-bottom: 150px; }
@@ -224,7 +236,7 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .models-grid, .problem-split { grid-template-columns: 1fr; }
+            .models-grid, .problem-split, .culture-analysis-grid { grid-template-columns: 1fr; }
             .research-grid, .concept-sketch-grid { grid-template-columns: repeat(2, 1fr); }
             .system-card-unified { width: calc(50% - 20px); } /* 2 per row on tablet */
         }
@@ -322,6 +334,40 @@
                 </div>
             </div>
         </div>
+
+        <!-- NEW: Culture Analysis Section -->
+        <div style="margin-top: 100px;">
+            <h2 class="section-title">Culture Analysis</h2>
+            <div class="culture-analysis-grid">
+                
+                <!-- Left: Verbatim Truths -->
+                <div class="text-box" style="justify-content: center;">
+                    <h4 style="margin-bottom: 25px;">Cultural Truths</h4>
+                    <ul>
+                        <li><strong>Singaporeans value order, predictability, and punctuality</strong> — ambiguity is not tolerated.</li>
+                        <li><strong>Complaining ≠ rejection</strong> → it is a signal that standards are not met.</li>
+                        <li><strong>High trust in systems only when:</strong>
+                            <ul style="margin-top: 5px; margin-left: 10px; opacity: 0.8;">
+                                <li>Rules are visible</li>
+                                <li>Enforcement exists</li>
+                                <li>Behaviour is legible</li>
+                            </ul>
+                        </li>
+                        <li><strong>Automation is not rejected morally</strong> — it is rejected when it violates shared spatial etiquette.</li>
+                    </ul>
+                </div>
+
+                <!-- Right: Citizen Quote -->
+                <div class="text-box" style="justify-content: center; background: rgba(255, 207, 36, 0.05); border-color: rgba(255, 207, 36, 0.4);">
+                    <p class="culture-quote">
+                        “Because most things run smoothly, we definitely work with the best-case scenario and any deviation from that might unsettle us. We don’t “live with” or “tolerate” anything that has not been adequately managed or implemented. And while this may come across as pettiness etc to some, I think it does exemplify a respect for high standards. In that sense, a little Japanese.”
+                    </p>
+                    <span class="quote-author">— Singaporean citizen</span>
+                </div>
+
+            </div>
+        </div>
+
     </section>
 
     <section class="gallery-section">
@@ -348,26 +394,44 @@
                 <div class="systems-unified-container">
                     
                     <div class="system-card-unified">
-                        <img src="s1.jpg" alt="System 1" class="system-img-unified" onclick="openLightbox(this)">
+                        <a href="1.html">
+                            <img src="s1.jpg" alt="System 1" class="system-img-unified">
+                        </a>
                     </div>
                     
                     <div class="system-card-unified">
-                        <img src="s2.jpg" alt="System 2" class="system-img-unified" onclick="openLightbox(this)">
+                        <a href="2.html">
+                            <img src="s2.jpg" alt="System 2" class="system-img-unified">
+                        </a>
                     </div>
                     
                     <div class="system-card-unified">
-                        <img src="s3.jpg" alt="System 3" class="system-img-unified" onclick="openLightbox(this)">
+                        <a href="3.html">
+                            <img src="s3.jpg" alt="System 3" class="system-img-unified">
+                        </a>
                     </div>
                     
                     <div class="system-card-unified">
-                        <img src="s4.jpg" alt="System 4" class="system-img-unified" onclick="openLightbox(this)">
+                        <a href="4.html">
+                            <img src="s4.jpg" alt="System 4" class="system-img-unified">
+                        </a>
                     </div>
                     
                     <div class="system-card-unified">
-                        <img src="s5.jpg" alt="System 5" class="system-img-unified" onclick="openLightbox(this)">
+                        <a href="5.html">
+                            <img src="s5.jpg" alt="System 5" class="system-img-unified">
+                        </a>
                     </div>
 
                 </div>
+
+                <!-- 独立的额外图片展示区 -->
+                <div style="margin-top: 60px; display: flex; justify-content: center;">
+                    <div class="system-card-unified" style="width: 100%; max-width: 800px; aspect-ratio: 16/9;">
+                        <img src="s6.jpg" alt="Additional System Image" class="system-img-unified" onclick="openLightbox(this)">
+                    </div>
+                </div>
+
             </div>
 
             <div class="gallery-block" style="text-align: center;">
