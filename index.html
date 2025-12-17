@@ -99,25 +99,85 @@
             font-size: 0.8rem; color: var(--accent-color); margin-top: 10px; text-align: center; opacity: 0.7;
         }
 
-        /* --- Lightbox Modal --- */
+        /* --- Lightbox Modal (Updated Layout) --- */
         .lightbox-modal {
             display: none; position: fixed; z-index: 9999;
             left: 0; top: 0; width: 100%; height: 100%;
             overflow: auto; background-color: rgba(0,0,0,0.95);
             align-items: center; justify-content: center;
         }
-        .lightbox-content {
-            margin: auto; display: block; max-width: 90%; max-height: 90vh;
-            border-radius: 4px; box-shadow: 0 0 50px rgba(255,207,36, 0.2);
+        
+        /* Container for Image + Text */
+        .lightbox-wrapper {
+            display: flex;
+            width: 90%;
+            max-width: 1400px;
+            max-height: 85vh;
+            background: var(--bg-darker);
+            border: 1px solid rgba(255, 207, 36, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            overflow: hidden;
             animation: zoomIn 0.3s;
         }
+
+        .lightbox-img-container {
+            flex: 2; /* Image takes 2/3 space */
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .lightbox-content-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .lightbox-text-container {
+            flex: 1; /* Text takes 1/3 space */
+            padding: 40px;
+            background: var(--bg-darker);
+            border-left: 1px solid rgba(255,255,255,0.1);
+            overflow-y: auto;
+            display: none; /* Hidden by default unless text exists */
+        }
+
+        .lightbox-text-year {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .lightbox-text-desc {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: #ddd;
+            line-height: 1.8;
+            white-space: pre-wrap; /* 重要：保留换行符 */
+        }
+
         .lightbox-close {
-            position: absolute; top: 30px; right: 50px;
-            color: #f1f1f1; font-size: 40px; font-weight: bold;
-            transition: 0.3s; cursor: pointer;
+            position: absolute; top: 20px; right: 40px;
+            color: #fff; font-size: 50px; font-weight: bold;
+            transition: 0.3s; cursor: pointer; z-index: 10001;
         }
         .lightbox-close:hover { color: var(--accent-color); }
         @keyframes zoomIn { from {transform:scale(0.8); opacity:0} to {transform:scale(1); opacity:1} }
+
+        /* Responsive Lightbox */
+        @media (max-width: 1024px) {
+            .lightbox-wrapper { flex-direction: column; max-height: 90vh; width: 95%; }
+            .lightbox-img-container { height: 50%; padding: 10px; }
+            .lightbox-text-container { height: 50%; padding: 20px; border-left: none; border-top: 1px solid rgba(255,255,255,0.1); }
+            .lightbox-text-year { font-size: 1.8rem; margin-bottom: 10px; }
+        }
 
         /* --- Problem & Research --- */
         .problem-research-section { padding: var(--section-spacing) 0; }
@@ -175,7 +235,7 @@
             width: 100%; height: auto; border-radius: 8px;
             border: 2px solid #444; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
-            cursor: zoom-in; /* Added zoom cursor */
+            cursor: zoom-in;
         }
         .sketch-img:hover { transform: scale(1.02); border-color: var(--accent-color); }
         .sketch-year {
@@ -382,14 +442,137 @@
             <div class="gallery-block">
                 <h2 class="section-title">Concept Sketch: Timeline 2025–2046</h2>
                 <div class="concept-sketch-grid">
-                    <div class="sketch-wrapper"><img src="1.png" alt="2025" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2025</div></div>
-                    <div class="sketch-wrapper"><img src="2.png" alt="2028" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2028</div></div>
-                    <div class="sketch-wrapper"><img src="3.png" alt="2031" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2031</div></div>
-                    <div class="sketch-wrapper"><img src="4.png" alt="2034" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2034</div></div>
-                    <div class="sketch-wrapper"><img src="5.png" alt="2037" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2037</div></div>
-                    <div class="sketch-wrapper"><img src="6.png" alt="2040" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2040</div></div>
-                    <div class="sketch-wrapper"><img src="7.png" alt="2043" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2043</div></div>
-                    <div class="sketch-wrapper"><img src="8.png" alt="2046" class="sketch-img" onclick="openLightbox(this)"><div class="sketch-year">2046</div></div>
+                    <!-- Added text data attributes -->
+                    <div class="sketch-wrapper">
+                        <img src="1.png" alt="2025" class="sketch-img" onclick="openLightbox(this)" 
+                             data-year="2025" 
+                             data-desc="Current system : 
+People collect parcels from SingPost outlets or parcel lockers near HDBs. Human delivery workers dominate last-mile delivery.
+
+Current human interaction
+Collection is predictable, boring, and trusted.
+Missed deliveries are accepted as part of life.
+Streets and void decks are clearly “human-first”.">
+                        <div class="sketch-year">2025</div>
+                    </div>
+                    <div class="sketch-wrapper">
+                        <img src="2.png" alt="2028" class="sketch-img" onclick="openLightbox(this)" 
+                             data-year="2028" 
+                             data-desc="3 years later : 
+Singpost introduced the robo delivery dogs to deliver our products at our home and it has been rapidly rising. Recently there has been an incident where a a robodog didn’t recognise an electric bike by mistake, Singpost took full responsibility but still the problem is not solved 
+
+Human–robot interaction 
+Humans begin performative interaction: waving, posing, testing boundaries.
+Robodogs display social apology behaviours (pause, bow, light colour shift) after near-misses.
+Residents start reading intent from posture, not screens.">
+                        <div class="sketch-year">2028</div>
+                    </div>
+                    <div class="sketch-wrapper">
+                        <img src="3.png" alt="2031" class="sketch-img" onclick="openLightbox(this)" 
+                             data-year="2031" 
+                             data-desc="6 years later: 
+Food, medical, and grocery deliveries widely adopt robodogs.
+ Singapore implements a four-day work week across most white-collar and public-sector roles, significantly increasing daytime neighbourhood presence.
+
+Human–robot interaction 
+With more time and presence in their neighbourhoods, humans begin asserting spatial rights:
+Informal rule-making emerges:
+Tapping the ground to signal intent
+Standing deliberately still to force robots to reroute
+Groups walking wider to “claim” space
+People on their off-days are less tolerant:
+“I’m not rushing—why should I move?”
+Robodogs yield inconsistently depending on crowd density, confidence scores, and delivery urgency—fueling frustration.">
+                        <div class="sketch-year">2031</div>
+                    </div>
+                    <div class="sketch-wrapper">
+                        <img src="4.png" alt="2034" class="sketch-img" onclick="openLightbox(this)" 
+                             data-year="2034" 
+                             data-desc="9 years later: 
+In the past few years there have been a few accidents that has been reported and the no. of robots on the streets have increased. With lots of robo dogs on the street, their interface gets overwhelmed and human cops have tried to intervene but can’t do much. People have stared talking about it. 
+
+Human–robot interaction
+Humans avoid certain paths/timings.
+Parents actively warn children about robodogs.
+Emotional distance forms: robots are no longer “cute”, just “in the way”.">
+                        <div class="sketch-year">2034</div>
+                    </div>
+                    <div class="sketch-wrapper">
+                        <img src="5.png" alt="2037" class="sketch-img" onclick="openLightbox(this)" 
+                             data-year="2037" 
+                             data-desc="12 years later: 
+SingPost introduces Nodes at SingPost locations as containment and coordination points.
+
+Human–robot interaction
+Humans interact with Nodes, not dogs.
+Nodes explain delays, prioritisation, and rerouting in plain language.
+Robodogs wait, dock, and “rest” visibly—reducing perceived threat.">
+                        <div class="sketch-year">2037</div>
+                    </div>
+                    <div class="sketch-wrapper">
+                        <img src="6.png" alt="2040" class="sketch-img" onclick="openLightbox(this)" 
+                             data-year="2040" 
+                             data-desc="15 years later: 
+Nodes are deployed across all SingPost stations across Singapore.
+ Robodogs follow priority delivery logic—urgent, medical, and heavy parcels move autonomously; low-urgency parcels are parked at Nodes.
+ SingPost introduces a RoboDog Rental Layer integrated into the Node system for short-term civic and personal use
+
+Human–robot interaction
+Neighbourhood residents
+Opportunistic collection becomes normal:
+“I’m passing Tanjong Rhu Node anyway—might as well pick it up.”
+Face scan + voice confirmation at the Node.
+Children rent robodogs briefly as pet-like companions:
+Walking them around the estate
+Teaching simple gestures
+Feeling ownership without long-term responsibility
+Elderly residents rent robodogs as assistive companions:
+Carrying groceries
+Following them to the lift
+Emergency alert if they fall or pause too long">
+                        <div class="sketch-year">2040</div>
+                    </div>
+                    <div class="sketch-wrapper">
+                        <img src="7.png" alt="2043" class="sketch-img" onclick="openLightbox(this)" 
+                             data-year="2043" 
+                             data-desc="18 years later: 
+Aligned with LTA’s 20-Minute Town / 45-Minute City, robodogs expand into construction logistics.
+Super Nodes supervise when humans aren’t present.
+
+Human–robot interaction
+Emotional recognition: robodogs modulate behaviour based on human stress/fatigue.
+Cyclists and pedestrians read robot intent instinctively (light + movement language).
+Health, leisure, and slow mobility dominate neighbourhood life.">
+                        <div class="sketch-year">2043</div>
+                    </div>
+                    <div class="sketch-wrapper">
+                        <img src="8.png" alt="2046" class="sketch-img" onclick="openLightbox(this)" 
+                             data-year="2046" 
+                             data-desc="25 years later: 
+Robodogs are now critical civic infrastructure.
+ A centralised AI control system manages all robodogs via ropeways and night-time redistribution to avoid daytime congestion.
+Hierarchy:
+Central AI → Super Nodes → Nodes → Robodogs → Rented / civic dogs.
+
+Human-Robot interaction
+Construction workers (new, critical layer)
+Construction sites use construction-specific robodogs for:
+Carrying tools and materials
+Site scanning and safety checks
+Night-time supervision when humans are absent
+Workers treat robodogs like junior crew, not pets:
+Giving them nicknames
+Talking to them casually
+Scolding them when they block paths
+Emotional shift:
+Early resentment (“another thing to manage”) → Acceptance (“at least it doesn’t complain”) → Dependence (“don’t start work until the dog checks the site”)
+Workers rely on robodogs’ posture and light signals to know:
+Unsafe zones
+Tool availability
+When to pause or proceed
+Robodogs slow down or lower themselves when workers are tired or rushing—subtly correcting unsafe human behaviour.">
+                        <div class="sketch-year">2046</div>
+                    </div>
                 </div>
             </div>
 
@@ -425,7 +608,7 @@
                     
                     <div class="system-card-unified">
                         <a href="5.html">
-                            <img src="s5.jpg" alt="System 5" class="system-img-unified">
+                            <img src="s5.png" alt="System 5" class="system-img-unified">
                         </a>
                     </div>
 
@@ -454,17 +637,70 @@
         </div>
     </section>
 
+    <!-- References Section -->
+    <section class="container" style="padding: 60px 40px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <h2 class="section-title" style="font-size: 2rem; margin-bottom: 30px;">Reference</h2>
+        <ul style="list-style: none; color: #ccc; padding-left: 0; line-height: 2;">
+            <li><a href="https://www.lta.gov.sg/content/ltagov/en/who_we_are/our_work/land_transport_master_plan_2040.html" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">1. LTA Land Transport Master Plan 2040</a></li>
+            <li><a href="https://www.straitstimes.com/tech/tech-news/govts-pick-parcel-delivery-locker-network-launched-with-over-200-lockers-deployed" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">2. The Straits Times: Govt's Pick parcel delivery locker network launched</a></li>
+            <li><a href="https://www.singpost.com/send-receive/receive-mail-parcel/collection-points/popstation" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">3. SingPost POPStation Collection Points</a></li>
+            <li><a href="https://www.cbsnews.com/chicago/news/north-side-residents-petition-pause-to-delivery-robots/" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">4. CBS News: North Side residents petition pause to delivery robots</a></li>
+            <li><a href="https://www.singpost.com/about-us/news-releases/singpost-launches-residential-posting-box-trial-bring-postal-services-closer" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">5. SingPost launches residential posting box trial</a></li>
+            <li><a href="https://micromobility.io/news/delivery-robots-are-quietly-taking-over" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">6. Micromobility: Delivery robots are quietly taking over</a></li>
+            <li><a href="https://www.mckinsey.com/industries/logistics/our-insights/technology-delivered-implications-for-cost-customers-and-competition-in-the-last-mile-ecosystem" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">7. McKinsey: Technology delivered - Implications for last-mile ecosystem</a></li>
+            <li><a href="https://www.lta.gov.sg/content/dam/ltagov/industry_innovations/industry_matters/development_construction_resources/pdf/ActiveMobilityProposalsandRequirements/Walking%20Cycling%20Design%20Guide%20SG.pdf" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">8. LTA Walking & Cycling Design Guide</a></li>
+            <li><a href="https://www.uradraftmasterplan.gov.sg/themes/strengthening-urban-resilience/a-flood-resilient-city-and-coast/" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">9. URA Draft Master Plan: A Flood Resilient City and Coast</a></li>
+            <li><a href="https://www.mnd.gov.sg/newsroom/speeches/view/opening-remarks-by-minister-desmond-lee-at-the-'long-island'-public-engagement-at-the-ura-centre" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 1px solid rgba(255,207,36,0.3); transition: color 0.3s;">10. Opening remarks by Minister Desmond Lee at 'Long Island' public engagement</a></li>
+        </ul>
+    </section>
+
+    <!-- Updated Lightbox Modal Structure -->
     <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox(event)">
         <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
-        <img class="lightbox-content" id="img01">
+        <!-- Lightbox Wrapper for Image and Text -->
+        <div class="lightbox-wrapper" onclick="event.stopPropagation()">
+            <div class="lightbox-img-container">
+                <img class="lightbox-content-img" id="img01">
+            </div>
+            <!-- Text container, hidden by default unless content is present -->
+            <div class="lightbox-text-container">
+                <div class="lightbox-text-year" id="lightboxYear"></div>
+                <div class="lightbox-text-desc" id="lightboxDesc"></div>
+            </div>
+        </div>
     </div>
 
     <script>
         function openLightbox(element) {
             var modal = document.getElementById("lightboxModal");
             var modalImg = document.getElementById("img01");
+            var textContainer = document.querySelector(".lightbox-text-container");
+            var yearText = document.getElementById("lightboxYear");
+            var descText = document.getElementById("lightboxDesc");
+            var wrapper = document.querySelector(".lightbox-wrapper");
+
             modal.style.display = "flex";
             modalImg.src = element.src;
+
+            // Check if the clicked image has data attributes for text
+            var year = element.getAttribute('data-year');
+            var desc = element.getAttribute('data-desc');
+
+            if (year || desc) {
+                // If text exists, show the text column and layout
+                textContainer.style.display = "block";
+                wrapper.style.width = "90%"; // Use wide layout
+                wrapper.style.maxWidth = "1400px";
+                yearText.innerText = year || "";
+                descText.innerText = desc || "";
+            } else {
+                // If no text (other images), hide text column
+                textContainer.style.display = "none";
+                wrapper.style.width = "auto"; // Fit content
+                wrapper.style.maxWidth = "90%"; 
+                yearText.innerText = "";
+                descText.innerText = "";
+            }
         }
 
         function closeLightbox(event) {
