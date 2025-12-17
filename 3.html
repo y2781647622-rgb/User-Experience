@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Detail View - 2040 Framework</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 继承自主页的核心样式 --- */
+        :root {
+            --bg-dark: #343434;
+            --bg-darker: #1E1E1E;
+            --accent-color: #FFCF24; /* 工程黄 */
+            --text-white: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.85);
+            
+            --font-title: 'Inter', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            --section-spacing: 80px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; width: 100%; }
+
+        /* Typography */
+        h1, h2, h3 { font-family: var(--font-title); font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; }
+
+        /* --- 导航栏 --- */
+        .nav-bar {
+            padding: 30px 0;
+            background: rgba(30, 30, 30, 0.95);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+        .back-btn:hover { transform: translateX(-5px); }
+        .back-btn span { margin-right: 10px; font-size: 1.2rem; }
+
+        .page-indicator {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-family: var(--font-title);
+        }
+
+        /* --- 详情页内容区域 --- */
+        .detail-header {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .detail-title {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: var(--text-white);
+        }
+
+        .detail-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            max-width: 700px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        /* --- 图片展示容器 --- */
+        .image-display-section {
+            flex: 1; /* 让这部分占据主要高度 */
+            padding-bottom: 80px;
+        }
+
+        .main-image-wrapper {
+            width: 100%;
+            background: var(--bg-darker);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            margin-bottom: 40px;
+            transition: border-color 0.3s ease;
+        }
+
+        .main-image-wrapper:hover {
+            border-color: rgba(255, 207, 36, 0.3);
+        }
+
+        .detail-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            cursor: zoom-in;
+            background-color: #000; 
+        }
+
+        .image-caption {
+            margin-top: 15px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            font-family: var(--font-title);
+        }
+
+        /* --- 新增：四图网格样式 --- */
+        .sub-images-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        /* 复用 main-image-wrapper 的样式，但去掉下边距以便在网格中紧凑显示 */
+        .sub-image-card {
+            background: var(--bg-darker);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: border-color 0.3s ease;
+        }
+        .sub-image-card:hover {
+            border-color: rgba(255, 207, 36, 0.3);
+        }
+
+        /* --- Lightbox (复制自主页) --- */
+        .lightbox-modal {
+            display: none; position: fixed; z-index: 9999;
+            left: 0; top: 0; width: 100%; height: 100%;
+            overflow: auto; background-color: rgba(0,0,0,0.95);
+            align-items: center; justify-content: center;
+        }
+        .lightbox-content {
+            margin: auto; display: block; max-width: 95%; max-height: 95vh;
+            border-radius: 4px; box-shadow: 0 0 50px rgba(255,207,36, 0.2);
+            animation: zoomIn 0.3s;
+        }
+        .lightbox-close {
+            position: absolute; top: 30px; right: 50px;
+            color: #f1f1f1; font-size: 40px; font-weight: bold;
+            transition: 0.3s; cursor: pointer;
+        }
+        .lightbox-close:hover { color: var(--accent-color); }
+        @keyframes zoomIn { from {transform:scale(0.8); opacity:0} to {transform:scale(1); opacity:1} }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .detail-title { font-size: 2.5rem; }
+            .container { padding: 0 20px; }
+            .nav-bar { padding: 20px 0; }
+            .sub-images-grid { grid-template-columns: 1fr; } /* 移动端改为单列 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="nav-bar">
+        <div class="container nav-container">
+            <!-- 修改点：添加了 onclick 事件以执行浏览器后退 -->
+            <a href="index.html" class="back-btn" onclick="event.preventDefault(); window.history.back();"><span>&#8592;</span> Back to Framework</a>
+            <span class="page-indicator">SYSTEM DETAIL</span>
+        </div>
+    </nav>
+
+    <!-- 标题区域 -->
+    <header class="detail-header container">
+        <h1 class="detail-title">SYSTEM 03</h1> 
+        <p class="detail-subtitle">Autonomous Logistics Unit - Mechanical Breakdown & Specs</p>
+    </header>
+
+    <!-- 图片展示区域 -->
+    <section class="image-display-section container">
+        
+        <!-- 主图卡片 -->
+        <div class="main-image-wrapper">
+            <img src="s3.jpg" alt="System Detail View" class="detail-img" onclick="openLightbox(this)">
+            <div class="image-caption">Figure 3.1: Isometric View</div>
+        </div>
+
+        <!-- 四张图片展示框 (s31-s34) -->
+        <div class="sub-images-grid">
+            
+            <div class="sub-image-card">
+                <img src="s31.png" alt="Detail 1" class="detail-img" onclick="openLightbox(this)">
+                <div class="image-caption">Figure 3.2</div>
+            </div>
+
+            <div class="sub-image-card">
+                <img src="s32.png" alt="Detail 2" class="detail-img" onclick="openLightbox(this)">
+                <div class="image-caption">Figure 3.3</div>
+            </div>
+
+            <div class="sub-image-card">
+                <img src="s33.png" alt="Detail 3" class="detail-img" onclick="openLightbox(this)">
+                <div class="image-caption">Figure 3.4</div>
+            </div>
+
+            <div class="sub-image-card">
+                <img src="s34.png" alt="Detail 4" class="detail-img" onclick="openLightbox(this)">
+                <div class="image-caption">Figure 3.5</div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- 底部 -->
+    <footer style="padding: 40px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto;">
+        <p style="color: #666; font-size: 0.8rem;">2040 FRAMEWORK · SINGAPORE</p>
+    </footer>
+
+    <!-- Lightbox 组件 -->
+    <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox(event)">
+        <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+        <img class="lightbox-content" id="img01">
+    </div>
+
+    <script>
+        function openLightbox(element) {
+            var modal = document.getElementById("lightboxModal");
+            var modalImg = document.getElementById("img01");
+            modal.style.display = "flex";
+            modalImg.src = element.src;
+        }
+
+        function closeLightbox(event) {
+            if (event.target.className === "lightbox-modal" || event.target.className === "lightbox-close") {
+                document.getElementById("lightboxModal").style.display = "none";
+            }
+        }
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") { document.getElementById("lightboxModal").style.display = "none"; }
+        });
+    </script>
+
+</body>
+</html>
