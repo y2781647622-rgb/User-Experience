@@ -51,6 +51,35 @@
             color: var(--accent-color);
         }
 
+        /* --- QR Code Widget (Modified: Click to Expand) --- */
+        .qr-widget {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 60px; /* Fixed small size */
+            background: #fff;
+            padding: 5px;
+            border-radius: 8px;
+            z-index: 9000;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .qr-widget img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Removed width expansion, added subtle scale effect instead */
+        .qr-widget:hover {
+            transform: scale(1.05); 
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(255, 207, 36, 0.4);
+        }
+
         /* --- 通用组件 --- */
         .image-placeholder-slot {
             width: 100%; height: 100%; min-height: 250px;
@@ -305,10 +334,16 @@
             .research-grid, .concept-sketch-grid { grid-template-columns: 1fr; }
             .main-title { font-size: 3rem; }
             .system-card-unified { width: 100%; aspect-ratio: auto; } /* 1 per row on mobile, let height adapt */
+            .qr-widget { top: 15px; right: 15px; width: 45px; } /* Smaller QR on mobile */
         }
     </style>
 </head>
 <body>
+
+    <!-- QR Code Widget: Added onclick to trigger lightbox -->
+    <div class="qr-widget">
+        <img src="QR.png" alt="Scan QR Code" onclick="openLightbox(this)">
+    </div>
 
     <header class="header-section">
         <div class="container">
